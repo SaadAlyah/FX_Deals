@@ -20,7 +20,7 @@ public class IsoCodeValidator implements ConstraintValidator<IsoCode, String> {
         Set<Currency> currencies = Currency.getAvailableCurrencies();
         try {
             containsIsoCode = currencies.contains(Currency.getInstance(s));
-        }catch(IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             logger.error("error occurred while validating currency Ex: ", e);
         }
         return containsIsoCode;

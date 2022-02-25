@@ -15,7 +15,7 @@ public class GlobalExceptionHandler {
 
     //region Specific Exceptions
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<?> resourceNotFoundHandling(ResourceNotFoundException exception, WebRequest request){
+    public ResponseEntity<?> resourceNotFoundHandling(ResourceNotFoundException exception, WebRequest request) {
         ErrorDetails errorDetails =
                 new ErrorDetails(new Date(), exception.getMessage(), request.getDescription(false));
         return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
@@ -24,7 +24,7 @@ public class GlobalExceptionHandler {
 
     //region Global Exception
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<?> globalExceptionHandling(Exception exception, WebRequest request){
+    public ResponseEntity<?> globalExceptionHandling(Exception exception, WebRequest request) {
         ErrorDetails errorDetails =
                 new ErrorDetails(new Date(), exception.getMessage(), request.getDescription(false));
         return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -33,11 +33,11 @@ public class GlobalExceptionHandler {
 
     //region Validation Exception
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<?> customValidationErrorHandling(MethodArgumentNotValidException exception){
+    public ResponseEntity<?> customValidationErrorHandling(MethodArgumentNotValidException exception) {
         ErrorDetails errorDetails = new ErrorDetails(new Date(),
-                        "Request is not valid",
-                        Objects.requireNonNull(exception.getBindingResult().getFieldError()).getDefaultMessage()
-                );
+                "Request is not valid",
+                Objects.requireNonNull(exception.getBindingResult().getFieldError()).getDefaultMessage()
+        );
         return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
     }
     //endregion

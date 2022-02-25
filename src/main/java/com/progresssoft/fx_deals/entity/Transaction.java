@@ -3,9 +3,9 @@ package com.progresssoft.fx_deals.entity;
 import com.progresssoft.fx_deals.Validation.IsoCode;
 import org.hibernate.annotations.*;
 
-import javax.persistence.*;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import java.util.Date;
