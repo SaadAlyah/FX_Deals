@@ -7,6 +7,7 @@ import org.hibernate.annotations.SQLDelete;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
@@ -21,19 +22,18 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String uniqueId;
 
-    @NotNull
+    @NotBlank
     @Column(name = "from_currency")
     private String fromCurrency;
 
-    @NotNull
+    @NotBlank
     @Column(name = "to_currency")
     private String toCurrency;
 
-    @NotNull
+    @NotBlank
     @Column(name = "trans_Date")
     private Date transDate;
 
-    @NotNull
     @Min(value = 10, message = "Amount can't be less than 10")
     @Column(name = "trans_amount")
     private String amount;

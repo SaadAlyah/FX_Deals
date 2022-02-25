@@ -55,7 +55,7 @@ public class TransactionController {
     //region PUT
     //UpdateTrans
     @PutMapping
-    public Transaction UpdateTransaction(@RequestBody Transaction updatedTrans, @PathVariable(name = "id") String id){
+    public Transaction UpdateTransaction(@Valid @RequestBody Transaction updatedTrans, @PathVariable(name = "id") String id){
         this.transactionRepository.findById(id) //check if transaction exist.
                 .orElseThrow(() -> new ResourceNotFoundException("No transaction was found with the id: " + id));
         updatedTrans.setUniqueId(id);
