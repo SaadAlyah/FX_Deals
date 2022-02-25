@@ -1,5 +1,6 @@
 package com.progresssoft.fx_deals.entity;
 
+import com.progresssoft.fx_deals.Validation.IsoCode;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.FilterDef;
 import org.hibernate.annotations.ParamDef;
@@ -26,6 +27,7 @@ public class Transaction {
     @Column(name = "from_currency")
     private String fromCurrency;
 
+    @IsoCode
     @NotBlank
     @Column(name = "to_currency")
     private String toCurrency;
