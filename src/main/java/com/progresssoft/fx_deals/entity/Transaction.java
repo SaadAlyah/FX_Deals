@@ -1,50 +1,48 @@
 package com.progresssoft.fx_deals.entity;
 
 import com.progresssoft.fx_deals.Validation.IsoCode;
-import org.hibernate.annotations.Filter;
-import org.hibernate.annotations.FilterDef;
-import org.hibernate.annotations.ParamDef;
-import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.*;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Entity
 @Table(name = "Transactions")
-@SQLDelete(sql = "UPDATE tbl_products SET deleted = true WHERE id=?")
+@SQLDelete(sql = "UPDATE Transactions SET deleted = true WHERE unique_id=?")
 @FilterDef(name = "deletedTransactionFilter", parameters = @ParamDef(name = "isDeleted", type = "boolean"))
 @Filter(name = "deletedTransactionFilter", condition = "deleted = :isDeleted")
 public class Transaction {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String uniqueId;
 
-    @NotBlank
+    @IsoCode
+    @NotBlank(message = "fromCurrency can't be blank")
     @Column(name = "from_currency")
     private String fromCurrency;
 
     @IsoCode
-    @NotBlank
+    @NotBlank(message = "toCurrency can't be blank")
     @Column(name = "to_currency")
     private String toCurrency;
 
-    @NotBlank
     @Column(name = "trans_Date")
     private Date transDate;
 
     @Min(value = 10, message = "Amount can't be less than 10")
     @Column(name = "trans_amount")
-    private String amount;
-
+    private double amount;
 
     @Column(name = "deleted")
     private Boolean isDeleted = Boolean.FALSE;
 
-    public Transaction(String fromCurrency, String toCurrency, Date transDate, String amount) {
+    public Transaction(String fromCurrency, String toCurrency, Date transDate, double amount) {
         this.fromCurrency = fromCurrency;
         this.toCurrency = toCurrency;
         this.transDate = transDate;
@@ -95,11 +93,11 @@ public class Transaction {
         this.transDate = transDate;
     }
 
-    public String getAmount() {
+    public double getAmount() {
         return amount;
     }
 
-    public void setAmount(String amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 }

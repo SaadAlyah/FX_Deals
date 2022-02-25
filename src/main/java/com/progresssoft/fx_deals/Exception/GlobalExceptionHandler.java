@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 
 import java.util.Date;
+import java.util.Objects;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -32,10 +33,10 @@ public class GlobalExceptionHandler {
 
     //region Validation Exception
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<?> customValidationErrorHandling(MethodArgumentNotValidException exception, WebRequest request){
+    public ResponseEntity<?> customValidationErrorHandling(MethodArgumentNotValidException exception){
         ErrorDetails errorDetails = new ErrorDetails(new Date(),
                         "Request is not valid",
-                        exception.getBindingResult().getFieldError().getDefaultMessage()
+                        Objects.requireNonNull(exception.getBindingResult().getFieldError()).getDefaultMessage()
                 );
         return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
     }
