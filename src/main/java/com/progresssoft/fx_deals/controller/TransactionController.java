@@ -2,28 +2,40 @@ package com.progresssoft.fx_deals.controller;
 
 import com.progresssoft.fx_deals.Exception.ResourceNotFoundException;
 import com.progresssoft.fx_deals.Repo.TransactionRepository;
+import com.progresssoft.fx_deals.Validation.OncePerRequestValidator;
 import com.progresssoft.fx_deals.entity.Transaction;
 import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.async.DeferredResult;
 
 import javax.persistence.EntityManager;
 import javax.validation.Valid;
+import java.beans.PropertyEditor;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/Transaction")
 public class TransactionController {
 
-    Logger log = LoggerFactory.getLogger(TransactionController.class);
     //region GLOBAL PARAMETERS
     @Autowired
     private TransactionRepository transactionRepository;
     @Autowired
     private EntityManager entityManager;
+
+    Logger log = LoggerFactory.getLogger(TransactionController.class);
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+
+        PropertyEditor stringEditor = new OncePerRequestValidator();
+        binder.registerCustomEditor(String.class, stringEditor);
+    }
+
     //endregion
 
     //region GET

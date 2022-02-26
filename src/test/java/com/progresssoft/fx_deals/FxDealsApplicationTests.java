@@ -20,18 +20,12 @@ class FxDealsApplicationTests {
     TransactionRepository repo;
 
     TransactionController controller = new TransactionController();
-    Transaction transaction;
+    Transaction transaction = new Transaction("USDْ", "UAE", new Date(), 100);;
 
 
     @Test
     @Order(1)
     public void testCreate() {
-        transaction = new Transaction();
-        transaction.setTransDate(new Date());
-        transaction.setFromCurrency("USD");
-        transaction.setToCurrency("UAE");
-        transaction.setAmount(100);
-
         transaction = controller.CreateTransaction(transaction);
 
         assertNotNull(repo.findById(transaction.getUniqueId()).get());
